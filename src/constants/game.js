@@ -1,0 +1,9 @@
+export const gameConstants = {
+  STATUS_PLAY: "PLAY",
+  STATUS_PAUSED: "PAUSED",
+  STATUS_GAME_OVER: "GAME OVER",
+  STATUS_WIN: "WIN",
+
+  SET_SETTINGS: "SET_SETTINGS",
+  SET_STATUS: "SET_STATUS"
+};

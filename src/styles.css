@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+html,
+body {
+  background: #000;
+  height: 100%;
+  /* overflow: hidden; */
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: "Press Start 2P", cursive;
+  color: #fff;
+  margin: 0;
+  min-width: 650px;
+  min-height: 490px;
+  border: 5px solid #8d43ff;
+}
+
+#root,
+.App {
+  height: 100%;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.title,
+.logo {
+  text-align: center;
+}
+
+.scene {
+  position: relative;
+}
+
+.field {
+  position: relative;
+  background: #222;
+  z-index: 1;
+  box-shadow: 0 0 0 6px rgba(255, 59, 22, 0.9);
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  display: block;
+  box-shadow: 0 0 0 1px rgba(0, 171, 253, 0.22);
+}
+
+.snake-item {
+  position: absolute;
+  display: block;
+  background: yellowgreen;
+  z-index: 3;
+}
+
+.snake-item:last-child {
+  z-index: 5;
+  background: peru;
+}
+
+.snake-item.in-stomach {
+  background: #c5e141;
+  z-index: 4;
+}
+
+.food {
+  position: absolute;
+  background: tomato;
+  z-index: 3;
+  line-height: 1;
+}
+
+.heading {
+  display: block;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.game-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.game-menu li {
+  margin-bottom: 0.5rem;
+}
+
+.game-menu a {
+  display: inline-block;
+  line-height: 2rem;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: #fff;
+}
+
+.logo {
+  display: block;
+  margin: 0 0 2.5rem;
+  font-size: 3rem;
+  font-weight: bold;
+  color: yellowgreen;
+  text-shadow: 0.2rem 0.25rem 0 peru;
+}
+
+.game-menu a:hover,
+.game-menu a:focus {
+  color: #ccc;
+}
+
+.score-board {
+  margin: 0.5rem 0 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+
+.game-over .heading {
+  color: firebrick;
+}
+
+.game-help {
+  margin: 1rem 0;
+  font-size: 0.8rem;
+  line-height: 1.25rem;
+  text-align: center;
+}
+
+.form-group {
+  padding: 0.5rem 0;
+}
+
+.settings-form {
+  width: 350px;
+}
+
+.settings-form fieldset {
+  padding: 1rem 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.settings-form .form-group {
+  display: flex;
+  justify-content: space-between;
+  line-height: 1.5rem;
+}
+
+.settings-form .settings-speed-value {
+  display: inline-block;
+  width: 60px;
+  font-size: 1.25rem;
+  line-height: 1;
+  text-align: right;
+}
+
+.settings-form [type="text"] {
+  display: inline-block;
+  font-family: "Press Start 2P", cursive;
+  background: transparent;
+  color: #fff;
+  border: 0;
+  width: 60px;
+  height: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  margin-left: 20px;
+  text-align: right;
+}
+
+.congrats .heading {
+  color: #00c853;
+}
