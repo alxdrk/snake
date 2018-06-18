@@ -60,6 +60,7 @@ body {
 
 .cell {
   display: block;
+  animation: hue-rotation 15s linear infinite;
   box-shadow: 0 0 0 1px rgba(0, 171, 253, 0.22);
 }
 
@@ -158,6 +159,10 @@ body {
   margin-bottom: 2rem;
 }
 
+.settings-form [type="range"] {
+  width: 125px;
+}
+
 .settings-form .form-group {
   display: flex;
   justify-content: space-between;
@@ -201,4 +206,18 @@ body {
 
 .congrats .heading {
   color: #00c853;
+}
+
+@keyframes hue-rotation {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  50% {
+    filter: hue-rotate(180deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
