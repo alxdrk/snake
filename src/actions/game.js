@@ -5,12 +5,7 @@ export const setGameStatus = status => ({
   status
 });
 
-export const setFieldSettings = settings => ({
-  type: gameConstants.SET_SETTINGS,
-  settings
-});
-
-export const setSnakeSettings = settings => ({
+export const setGameSettings = settings => ({
   type: gameConstants.SET_SETTINGS,
   settings
 });

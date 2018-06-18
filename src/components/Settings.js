@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { isNumeric } from "validator";
 
-import { setFieldSettings, setSnakeSettings } from "../actions/game";
+import { setGameSettings } from "../actions/game";
 
 class Settings extends Component {
   constructor(props) {
@@ -17,63 +17,64 @@ class Settings extends Component {
     };
   }
 
-  handleSnakeSpeedChange = ({ target }) => {
-    const value = parseInt(target.value, 10);
+  handleSnakeSettingsChange = ({ target }) => {
+    const value = target.value || 0;
 
-    this.setState(
-      prevState => ({
+    if (!value || isNumeric(value)) {
+      this.setState(prevState => ({
         snake: {
           ...prevState.snake,
-          [target.name]: value
+          [target.name]: parseInt(value, 10)
         }
-      }),
-      () => {
-        const { snake: settings } = this.state;
-        this.props.setFieldSettings({ snake: settings });
-      }
-    );
+      }));
+    }
   };
 
   handleFieldSettingsChange = ({ target }) => {
     const value = target.value || 0;
 
-    if (!value || value.match(/^\d+$/)) {
-      const errors = this.validateFieldSettings(target.name, value);
-
-      if (errors.length > 0) {
-        const msg = errors.join("\r\n");
-        alert(msg);
-      } else {
-        this.setState(
-          prevState => ({
-            field: {
-              ...prevState.field,
-              [target.name]: parseInt(value, 10)
-            }
-          }),
-          () => {
-            const { field: settings } = this.state;
-            this.props.setFieldSettings({ field: settings });
-          }
-        );
-      }
+    if (!value || isNumeric(value)) {
+      this.setState(prevState => ({
+        field: {
+          ...prevState.field,
+          [target.name]: parseInt(value, 10)
+        }
+      }));
     }
   };
 
-  validateFieldSettings = (name, value) => {
-    const { snake } = this.props;
-    const errors = [];
+  applySettings = e => {
+    e.preventDefault();
 
-    if (name === "width" && value <= snake.startLength) {
-      errors.push(`Width must be greater than ${snake.startLength}`);
+    const errors = this.validateFieldSettings();
+
+    if (Object.keys(errors).length === 0) {
+      const { field, snake } = this.state;
+      this.props.setGameSettings({ field, snake });
+      this.props.history.push("/");
+    } else {
+      this.setState(() => ({ errors }));
+    }
+  };
+
+  validateFieldSettings = () => {
+    const { snake, field } = this.state;
+    const errors = {};
+
+    if (snake.startLength <= 0) {
+      errors.startLength = "Snake length must be greater than 0";
     }
 
-    if (name === "height" && value <= 1) {
-      errors.push("Height must be greater than 1");
+    if (snake.startLength >= field.width) {
+      errors.startLength = `Snake length must be less than ${field.width}`;
     }
 
-    if (name === "cellSize" && value < 1) {
-      errors.push("Cell size must be greater than 0");
+    if (field.height <= 1) {
+      errors.height = "Height must be greater than 1";
+    }
+
+    if (field.cellSize === 0) {
+      errors.cellSize = "Cell size must be greater than 0";
     }
 
     return errors;
@@ -84,7 +85,7 @@ class Settings extends Component {
   };
 
   render() {
-    const { snake, field } = this.state;
+    const { snake, field, errors } = this.state;
 
     return (
       <Fragment>
@@ -92,7 +93,7 @@ class Settings extends Component {
           <fieldset>
             <legend>Snake</legend>
 
-            <div class="form-group">
+            <div className="form-group">
               <label>Speed</label>
               <div>
                 <input
@@ -102,20 +103,34 @@ class Settings extends Component {
                   max="1000"
                   step="100"
                   value={snake.speed}
-                  onChange={this.handleSnakeSpeedChange}
+                  onChange={this.handleSnakeSettingsChange}
                 />
                 <span className="settings-speed-value">
                   {this.renderSpeedValue(snake.speed)}
                 </span>
               </div>
-              {/* TODO: ADD SNAKE SIZE SETTINGS */}
             </div>
+            <div className="form-group">
+              <label>Size</label>
+              <input
+                className="form-control"
+                type="text"
+                name="startLength"
+                value={snake.startLength}
+                maxLength="3"
+                onChange={this.handleSnakeSettingsChange}
+              />
+            </div>
+            {errors.startLength && (
+              <span className="error-message">{errors.startLength}</span>
+            )}
           </fieldset>
           <fieldset>
             <legend>Field</legend>
-            <div class="form-group">
+            <div className="form-group">
               <label>Width</label>
               <input
+                className="form-control"
                 type="text"
                 name="width"
                 value={field.width}
@@ -123,9 +138,13 @@ class Settings extends Component {
                 onChange={this.handleFieldSettingsChange}
               />
             </div>
-            <div class="form-group">
+            {errors.width && (
+              <span className="error-message">{errors.width}</span>
+            )}
+            <div className="form-group">
               <label>Height</label>{" "}
               <input
+                className="form-control"
                 type="text"
                 name="height"
                 value={field.height}
@@ -133,9 +152,13 @@ class Settings extends Component {
                 onChange={this.handleFieldSettingsChange}
               />
             </div>
-            <div class="form-group">
+            {errors.height && (
+              <span className="error-message">{errors.height}</span>
+            )}
+            <div className="form-group">
               <label>Cell size</label>{" "}
               <input
+                className="form-control"
                 type="text"
                 name="cellSize"
                 value={field.cellSize}
@@ -143,12 +166,18 @@ class Settings extends Component {
                 onChange={this.handleFieldSettingsChange}
               />
             </div>
+
+            {errors.cellSize && (
+              <span className="error-message">{errors.cellSize}</span>
+            )}
           </fieldset>
         </form>
 
         <ul className="game-menu">
           <li>
-            <Link to="/">Back</Link>
+            <a href="#" onClick={this.applySettings}>
+              Back
+            </a>
           </li>
         </ul>
       </Fragment>
@@ -162,8 +191,7 @@ const mapStateToProps = ({ game }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setFieldSettings: settings => dispatch(setFieldSettings(settings)),
-  setSnakeSettings: settings => dispatch(setSnakeSettings(settings))
+  setGameSettings: settings => dispatch(setGameSettings(settings))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

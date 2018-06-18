@@ -1,10 +1,10 @@
 import React from "react";
 import Settings from "../components/Settings";
 
-const SettingsPage = () => (
+const SettingsPage = ({ history }) => (
   <div className="game-settings">
     <h2 className="heading">Settings</h2>
-    <Settings />
+    <Settings history={history} />
   </div>
 );
 

@@ -164,6 +164,16 @@ body {
   line-height: 1.5rem;
 }
 
+.settings-form .error-message {
+  display: block;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: red;
+  font-weight: bold;
+  font-family: sans-serif;
+  margin-bottom: 0.5rem;
+}
+
 .settings-form .settings-speed-value {
   display: inline-block;
   width: 60px;
@@ -172,18 +182,21 @@ body {
   text-align: right;
 }
 
-.settings-form [type="text"] {
+.settings-form .form-control {
   display: inline-block;
   font-family: "Press Start 2P", cursive;
   background: transparent;
   color: #fff;
   border: 0;
-  width: 60px;
+  width: 80px;
   height: 1.5rem;
-  font-size: 1.25rem;
-  line-height: 1;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0;
   margin-left: 20px;
   text-align: right;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .congrats .heading {
