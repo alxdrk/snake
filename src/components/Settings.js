@@ -69,6 +69,10 @@ class Settings extends Component {
       errors.startLength = `Snake length must be less than ${field.width}`;
     }
 
+    if (field.width <= 1) {
+      errors.width = "Width must be greater than 1";
+    }
+
     if (field.height <= 1) {
       errors.height = "Height must be greater than 1";
     }
