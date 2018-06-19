@@ -4,10 +4,10 @@ import { keysConstants } from "../constants/keys";
 const initialState = {
   settings: {
     snake: {
-      speed: 500,
+      speed: 700,
       startX: 0,
       startY: 0,
-      startLength: 4,
+      startLength: 3,
       startDirection: keysConstants.RIGHT
     },
     field: {
